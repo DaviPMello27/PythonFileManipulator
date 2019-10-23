@@ -1,5 +1,4 @@
 from os import system
-from cv2 import waitKey
 
 #checkDoubleDots() ckecks if the string given contains ":" in it.
 def checkDoubleDots(name, string):
@@ -117,10 +116,10 @@ def changeUserData(matrix, line, column, function):
 #changeUser() asks the user which part of the user he wants to change, by using changeUserData().
 def changeUser(matrix):
     searchIndex = -1
-    search = input("Which user do you want to change?")
+    search = input("Which user do you want to change? (Type the Username or the User ID): ")
     #Searches for the username given.
     for i in range(len(matrix)):
-        if(search ==  matrix[i][0]):
+        if(search ==  matrix[i][0] or search == matrix[i][2]):
             searchIndex = i
             #Stops when it's found.
             break
