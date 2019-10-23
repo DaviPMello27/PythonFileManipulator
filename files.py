@@ -99,6 +99,16 @@ def addHomeDirectory(matrix, index):
             matrix[index][5] = checkSize("Home Directory", matrix[index][5], 22)
             matrix[index][5] = checkDoubleDots("Home Directory", matrix[index][5])
 
+#addShell() applies the conditions to the Shell string.
+def addShell(matrix, index):
+    while(matrix[index][6] == " "):
+        matrix[index][6] = input(f"Type your Shell (or leave blank to use bin/bash): ") + "\n"
+        if(matrix[index][6] == "\n"):
+            matrix[index][6] = "bin/bash\n"
+        else:
+            matrix[index][6] = checkSize("Shell's name", matrix[index][6], 15)
+            matrix[index][6] = checkDoubleDots("Shell's name", matrix[index][6])
+
 #ChangeUserData() changes the user data using one of the "add" functions declared above, then asks for the user's confirmation.
 def changeUserData(matrix, line, column, function):
     temp = matrix[line][column]
@@ -130,9 +140,9 @@ def changeUser(matrix):
         print(f"Changing {matrix[searchIndex][0]}...")
         key = ""
         #Asks the user what he wants to change and wait for an adequate answer.
-        while(key.upper() != 'U' and key.upper() != 'P' and key.upper() != 'I' and key.upper() != 'G' and key.upper() != 'N' and key.upper() != 'H'):
+        while(key.upper() != 'U' and key.upper() != 'P' and key.upper() != 'I' and key.upper() != 'G' and key.upper() != 'N' and key.upper() != 'H' and key.upper() != 'S'):
             system("CLS")
-            key = input("Select what you want to change.\n(U)sername;\n(P)assword;\nUser (I)D;\n(G)roup ID;\n(N)ame;\n(H)ome Directory;")
+            key = input("Select what you want to change.\n(U)sername;\n(P)assword;\nUser (I)D;\n(G)roup ID;\n(N)ame;\n(H)ome Directory;\n(S)hell.")
             if(key.upper() == 'U'):
                 changeUserData(matrix, searchIndex, 0, addUsername)
             elif(key.upper() == 'P'):
@@ -145,6 +155,8 @@ def changeUser(matrix):
                 changeUserData(matrix, searchIndex, 4, addName)
             elif(key.upper() == 'H'):
                 changeUserData(matrix, searchIndex, 5, addHomeDirectory)
+            elif(key.upper() == 'S'):
+                changeUserData(matrix, searchIndex, 6, addShell)
 
 #removeUser() asks for an username and uses .pop() to remove it
 def removeUser(matrix):
@@ -188,7 +200,7 @@ def addUser(matrix):
     #============================HOME DIRECTORY============================
     addHomeDirectory(matrix, last)
     #============================SHELL============================
-    matrix[last][6] = "/bin/bash"
+    addShell(matrix, last)
     key = ""
     while(key.upper() != 'Y' and key.upper() != 'N'):
         system("CLS")
@@ -199,7 +211,7 @@ def addUser(matrix):
         Group ID: {matrix[last][3]};\n\
         Name: {matrix[last][4]};\n\
         Home Directory: {matrix[last][5]};\n\
-        Shell: {matrix[last][6]}.")
+        Shell: {matrix[last][6]}")
     if(key.upper() == 'Y'):
         passwd = open("passwd.txt", "a")
         passwd.write(f"\n{matrix[last][0]}:x:{matrix[last][2]}:{matrix[last][3]}:{matrix[last][4]}:{matrix[last][5]}:{matrix[last][6]}\n")
